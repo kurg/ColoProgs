@@ -1,0 +1,6 @@
+extern void object::BldFactory()
+{
+	 object item = radar(Titanium);
+	 goto(item.position);
+	 build(BotFactory); 
+}

@@ -1,0 +1,13 @@
+extern void object::GetTiBlock()
+{
+	object item;
+	radar(Titanium);
+	item = radar(Titanium);
+	goto(item.position);
+	grab();
+	radar(BotFactory);
+	item = radar(BotFactory);
+	goto(item.position);
+	drop();
+	move(-5);
+}

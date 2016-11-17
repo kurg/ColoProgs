@@ -1,0 +1,44 @@
+extern void object::NukeSniff()
+{
+	int i;
+	for ( i = 1 ; i <= 100; i++ )
+	{
+		move(10);
+		sniff();
+		//turn(i);
+		message(i) ;
+		if(energyCell.energyLevel <= 0.4)
+		    NukeRecharge();
+	}
+	
+	
+}
+
+bool object::NukeRecharge()
+{
+	object cell;
+	float min = 0;
+	
+	while( (cell = radar(NuclearCell,0,360,0,1000)) != null )
+	{
+		if(cell.energyLevel >= 0.5)
+		{
+			goto(cell.position);
+			    
+			message("Swapping with better PowerCell...",DisplayInfo);
+			
+			grab();   
+			drop(Behind);
+			
+			grab(EnergyCell);  
+			drop();
+			
+			grab(Behind);
+			drop(EnergyCell);
+			
+			return true;
+		}
+	}
+	
+	return false;
+}

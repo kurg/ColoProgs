@@ -1,0 +1,6 @@
+extern void object::BldDerrick()
+{
+	 object item = radar(Titanium);
+	 goto(item.position);
+	  build(Derrick); 
+}

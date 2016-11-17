@@ -1,0 +1,48 @@
+extern void object::EarthMission2()
+{
+	object rdr;
+	
+	if(category ==WheeledGrabber)
+	{
+		rdr = radar(ResearchCenter);
+		message("Waiting for manufacture of Research Center.");
+		
+		object item;
+		item = radar(Titanium);
+		goto(item.position);
+		grab();
+		goto(-24.15,13.15);
+		turn(-75);
+		drop();
+		build(ResearchCenter);
+		while(rdr == null) rdr = radar(ResearchCenter);
+		message("Research Center Completed.");
+		wait(2);
+		
+		rdr = radar(BotFactory);
+		message("Waiting for manufacture of Bot Factory.");
+		while(rdr == null)
+		{
+			message("Please build the BotFactory.");
+			wait(10);
+			rdr = radar(BotFactory);
+		} 
+		message("BotFactory Completed.");
+		wait(2);
+		
+		
+		//rdr = radar(PowerCell);
+		//goto(rdr.position);
+		//grab();
+		
+		//rdr = radar(ResearchCenter);
+		//goto(rdr.position);
+		//drop();
+		
+		message("Tracked grabber is ready.");
+		
+	}
+	message("Wheeled Grabber: Mission complete");
+	wait(2);
+	
+}

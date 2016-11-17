@@ -1,0 +1,9 @@
+extern void object::GoToIt()
+{
+	
+	object item;
+	radar(PhazerShooter);
+	item = radar(PhazerShooter);
+	goto(item.position)-5;
+	
+}

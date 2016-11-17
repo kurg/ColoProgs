@@ -1,0 +1,9 @@
+extern void object::GoToMe()
+{
+	
+	object item;
+	radar(Me);
+	item = radar(Me);
+	goto(space(item.position))-2;
+	
+}

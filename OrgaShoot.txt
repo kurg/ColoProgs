@@ -1,0 +1,126 @@
+extern void object::OrgaPractice()
+{
+	//First Target
+	move(17);
+	turn(34);
+	move(1);
+	aim(10);
+	fire(0.20);
+	message("Target 1 destroyed..",DisplayInfo);
+	wait(2);
+	
+	//Second Target
+	//move(17);
+	turn(-20);
+	//move(1);
+	aim(5);
+	fire(0.15);
+	message("Target 2 destroyed..",DisplayInfo);
+	wait(2);
+	
+	//Third Target
+	//move(17);
+	turn(-35);
+	//move(1);
+	aim(2);
+	fire(0.15);
+	message("Target 3 destroyed..",DisplayInfo);
+	wait(2);
+	
+	//Fourth Target
+	//move(17);
+	turn(-20);
+	//move(1);
+	aim(10);
+	fire(0.20);
+	message("Target 4 destroyed..",DisplayInfo);
+	message("Nice Shooting!..",DisplayMessage);
+	wait(2);
+	
+	//Fifth Target
+	turn(-60);
+	move(10);
+	turn(-45);
+	move(20);
+	turn(80);
+	aim(10);
+	fire(0.25);
+	message("Target 5 destroyed..",DisplayInfo);
+	wait(2);
+	
+	//Sixth Target
+	//move(17);
+	turn(-20);
+	//move(1);
+	aim(5);
+	fire(0.15);
+	message("Target 6 destroyed..",DisplayInfo);
+	wait(2);
+	
+	//Seventh Target
+	//move(17);
+	turn(-25);
+	//move(1);
+	aim(28);
+	fire(0.25);
+	message("Target 7 destroyed..",DisplayInfo);
+	wait(2);
+	message("Great Shooting!..",DisplayMessage);
+	wait(2);
+	
+	//Eighth Target
+	turn(-80);
+	move(20);
+	turn(-73);
+	move(38);
+	//turn(-10);
+	//move(13);
+	aim(65);
+	fire(0.25);
+	message("Target 8 destroyed..",DisplayInfo);
+	wait(2);
+	
+	//Ninth Target
+	//move(17);
+	turn(-33);
+	//move(1);
+	aim(15);
+	fire(0.25);
+	message("Target 9 destroyed..",DisplayInfo);
+	wait(2);
+	message("Excellent Job!..",DisplayMessage);
+	
+	//Tenth Target
+	turn (-62);
+	move(42);
+	turn(69);
+	//move(1);
+	aim(15);
+	fire(0.15);
+	message("Target 10 destroyed..",DisplayInfo);
+	wait(2);
+	
+	//Eleventh Target
+	//move(17);
+	turn(25);
+	//move(1);
+	aim(5);
+	fire(0.10);
+	message("Target 11 destroyed..",DisplayInfo);
+	wait(2);
+	message("Superb Marksmanship!..",DisplayMessage);
+	message("Well Done!",DisplayMessage);
+	
+	GotoShip();
+	message("Right, Let's go Home!",DisplayMessage);
+	
+}
+
+extern void object::GotoShip()
+{
+	object item;
+	radar(SpaceShip);
+	item = radar(SpaceShip);
+	goto(item.position);
+	
+}

@@ -1,0 +1,151 @@
+extern void object::NukeBotCreate()
+{
+	
+	object metal;
+	object factory;
+	object power;
+	object recharge;
+	int i;
+	
+	for ( i = 0 ; i <= 5 ; i++ )
+	{
+		metal=radar(Titanium);
+		factory=radar(BotFactory);
+		power=radar(NuclearCell);
+		recharge=radar(NuclearCell);
+		goto(metal.position);
+		grab();
+		goto(factory.position);
+		move(1);
+		drop(InFront);
+		move(-3);
+		wait(25);
+		goto(power.position);
+		grab();
+		if(power.energyLevel<=0.4){
+			if(NuclearCell==1){
+				goto(recharge.position);
+				while(power.energyLevel!=1){
+					wait(0.1);
+				}
+			}
+			else{
+				turn(-90);
+				move(15);
+				drop();
+				turn(180);
+				move(15);
+			}
+		}
+		goto(factory.position);
+		drop();
+		move(-2);
+		turn(90);
+		move(5);
+		NukeRecharge();
+	}
+	
+}
+
+extern void object::AutoRecharge()
+{
+	object chose;
+	point self;
+	float r = 0;
+	float minenergy = 0.25;
+	float minrecharge = 0.60;
+	
+	if (energyCell.energyLevel < minenergy) {
+		self.x = position.x;
+		self.y = position.y;
+		self.z = position.z;
+		
+		if (energyCell.energyLevel == 0) {
+			message ("Energy too low - can't do anything");
+			return;
+		}
+		//  message ("Energy low : seeking for energy...");
+		
+		chose = radar (NuclearCell);
+		if (chose == null) {
+			
+			while (true) {
+				//    if (r == 1000) {
+				//     message ("Can't find PowerCells :(");
+				//     return;
+				//    }
+				chose = radar (NuclearCell, 0, 360, 0, r);
+				if (chose == null)
+				{
+					message ("Can't find PowerCells :(");
+					return;
+				} else {
+					if (chose.energyLevel > minrecharge) { // min req
+						goto(chose.position);
+						grab();
+						drop();
+						grab (EnergyCell);
+						drop(Behind);
+						grab();
+						drop(EnergyCell);  
+						message ("PowerCell found, coming back...");
+						break;
+					}
+				}
+				r += 1;
+			}
+			
+		}
+		else
+		{
+			goto (chose.position);
+			while (energyCell.energyLevel < 1)
+			{
+				wait (0.5);
+			}
+			message ("Fully recharged, coming back...");
+		}
+		goto (self) ;
+		message ("Back and available");
+	}
+	else
+	{
+		message ("Programmed to recharge only if energy < " + minenergy);
+	}
+}
+
+bool object::NukeRecharge()
+{
+	object cell;
+	float min = 0;
+	
+	while( (cell = radar(NuclearCell,0,360,0,1000)) != null )
+	{
+		if(cell.energyLevel >= 0.40)
+		{
+			goto(cell.position);
+			if(load!=null) 
+			{
+				message("Putting down object...",DisplayInfo);
+				turn(90);
+				drop();
+				turn(-90);
+			}
+			    
+			message("Swapping with better PowerCell...",DisplayInfo);
+			
+			grab();   
+			drop(Behind);
+			
+			grab(EnergyCell);  
+			drop();
+			
+			grab(Behind);
+			drop(EnergyCell);
+			
+			return true;
+		}
+	}
+	
+	return false;
+}

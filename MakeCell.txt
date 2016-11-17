@@ -1,0 +1,55 @@
+extern void object::MakeCells()
+{
+	
+	object item;
+	int i;
+	
+	while(true)
+	{
+		item=radar(Titanium,0,360,10,1000);
+		goto(item.position);
+		wait(1);
+		grab();
+		wait(1);
+		item=radar(PowerPlant);
+		goto(item.position)-1;
+		wait(1);
+		drop();
+		wait(15);
+		grab();
+		deliverResource(GreenFlag);
+		Refuel();
+	}
+	
+}
+
+void object::deliverResource(int category)
+{
+	object dest = radar(category);
+	
+	if(dest == null)
+	    goto(space());
+	else 
+	{
+		errmode(0);
+		if(goto(space(dest.position)) != 0)
+		    goto(space());
+		errmode(1);
+	}
+	    
+	drop();
+	
+	message("TitaniumCube delivered.",DisplayInfo);
+}
+
+extern void object::Refuel()
+{
+	object item;
+	radar(PowerStation);
+	item = radar(PowerStation);
+	goto(item.position);
+	wait(10);
+	move(-5);
+	turn(90);
+	move(5);
+}

@@ -1,0 +1,16 @@
+extern void object::GetOrgaMtr()
+{
+	object item;
+	radar(OrgaMatter);
+	item = radar(OrgaMatter);
+	goto(space(item.position))-5;
+	move(5);
+	grab();
+	move(-2);
+	radar(AutoLab);
+	item = radar(AutoLab);
+	goto(item.position);
+	drop();
+	move(-5);
+	
+}
