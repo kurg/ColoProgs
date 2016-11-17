@@ -1,0 +1,9 @@
+extern void object::FollowMe()
+{
+	object spaceguy;
+	while(true)
+	{
+		spaceguy=radar(Shielder);
+		goto(spaceguy.position,spaceguy.altitude,1,1);
+	}
+}    // - - - AI <d.e.m@gmx.net>

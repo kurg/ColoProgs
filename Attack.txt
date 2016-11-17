@@ -1,0 +1,119 @@
+// My new attack program.
+// Aiming and enemy seeking has been improved.
+// It works with all shooters (legged, winged, etc.)
+// against all enemy races (ant, wasp, etc.).
+// Because there is a bug with pitch value not being
+// recognized correctly while in 1st-person camera view,
+// I recommend switching camera view to 3rd-person for best
+// results.  Happy Hunting!
+
+extern void object::Attack()
+{
+	int cat[];                
+	 
+	cat[0] = AlienAnt;
+	cat[1] = AlienWorm;
+	cat[2] = AlienWasp;
+	cat[3] = AlienSpider;
+	cat[4] = AlienEgg;
+	cat[5] = AlienQueen;
+	
+	while(true)
+	{
+		object enemy = radar(cat);
+		
+		if(enemy != null)
+		    moveAndDestroy(enemy);
+		//if (shieldLevel < 0.8)
+		//{
+		//	Repair();
+		//}
+		
+	}
+}
+
+void object::moveAndDestroy(object target)
+{
+	float dir;
+	float dis;
+	float dif;
+	float ang;
+	
+	object infront = radar(target.category,0,45,0,45);
+	
+	if(infront != null)
+	    target = infront;
+	
+	dir = direction(target.position); 
+	dis = distance(position,target.position);
+	
+	if(dir > 45 and dis < 10)
+	    motor(-1,0);
+	else if(dir < -45 and dis < 10)
+	    motor(0,-1);
+	else 
+	    motor(1-dir/22.5,1+dir/22.5);
+	
+	dis = distance(position,target.position);   
+	dif = target.position.z-position.z;         
+	ang = asin(dif/dis);
+	
+	jet(1-ang/-20);
+	
+	dir = direction(target.position); 
+	dis = distance(position,target.position);   
+	dif = target.position.z-position.z;         
+	ang = asin(dif/dis)-pitch;   
+	
+	aim(ang);
+	
+	if(dis < 40 and -15 < dir and dir < 15 and -25 < ang and ang < 25)  
+	    fire(0.1);
+}
+
+bool object::NukeRecharge()
+{
+	object cell;
+	float min = 0;
+	
+	while( (cell = radar(NuclearCell,0,360,0,1000)) != null )
+	{
+		if(cell.energyLevel >= 0.5)
+		{
+			goto(cell.position);
+			if(load!=null) 
+			{
+				message("Putting down object...",DisplayInfo);
+				turn(90);
+				drop();
+				turn(-90);
+			}    
+			message("Swapping with better PowerCell...",DisplayInfo);
+			
+			grab();   
+			drop(Behind);
+			
+			grab(EnergyCell);  
+			drop();
+			
+			grab(Behind);
+			drop(EnergyCell);
+			
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+extern void object::Repair()
+{
+	object item;
+	radar(RepairCenter);
+	item = radar(RepairCenter);
+	goto(item.position);
+	wait(7);
+	move(-5);
+	turn(90);
+	move(5);
+}

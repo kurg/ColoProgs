@@ -1,0 +1,6 @@
+extern void object::BldNukePlant()
+{
+	 object item = radar(Titanium);
+	 goto(item.position);
+	  build(NuclearPlant); 
+}

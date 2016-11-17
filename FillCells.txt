@@ -1,0 +1,42 @@
+extern void object::FillCells()
+{
+	while (true)
+	{
+		point pt;
+		float has = 1;
+		float min = 0;
+		float max = 400;
+		
+		// Find the battery that has the lowest charge.
+		// We'll do this by looking at the closest battery,
+		// then looking at the next-closest battery etc.
+		
+		object tgt;
+		while ((tgt=radar(PowerCell,0,360,min,max))!=null) {
+			if (tgt.energyLevel < has) {
+				pt = tgt.position;
+				has = tgt.energyLevel;
+			}
+			min = distance (tgt.position, position) + 0.02;
+		}
+		
+		// If we found a battery worth recharging, then
+		// take it to the recharger.  When done, leave it
+		// where we found it, step back and look for
+		// something else to do.
+		
+		if (has < 1) {
+			goto (pt);
+			grab (InFront);
+			
+			object pp = radar (PowerStation);
+			goto (pp.position);
+			wait (6);
+			
+			goto (pt);
+			drop (InFront);
+			move (-2);
+		}
+	}
+}
+

@@ -1,0 +1,11 @@
+extern void object::Produce()
+{
+	int i;
+	for ( i = 1 ; i <= 8 ; i++ )
+	{
+		move(5);
+		produce(NuclearCell) ;
+	}
+	
+	
+}

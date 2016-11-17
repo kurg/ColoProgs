@@ -1,0 +1,6 @@
+extern void object::BldPowerStation()
+{
+	 object item = radar(Titanium);
+	 goto(item.position);
+	  build(PowerStation); 
+}

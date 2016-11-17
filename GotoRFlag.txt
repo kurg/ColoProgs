@@ -1,0 +1,18 @@
+extern void object::GoToRFlag()
+{
+	
+	object item;
+	radar(RedFlag);
+	item = radar(RedFlag);
+	if(item == null)
+	    goto(space());
+	else 
+	{
+		errmode(0);
+		if(goto(space(item.position)) != 0)
+		    goto(space());
+		errmode(1);
+	}
+	
+	
+}

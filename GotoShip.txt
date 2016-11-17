@@ -1,0 +1,8 @@
+extern void object::GotoShip()
+{
+	object item;
+	radar(SpaceShip);
+	item = radar(SpaceShip);
+	goto(item.position);
+	
+}

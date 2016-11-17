@@ -1,0 +1,79 @@
+// Kevin van Rensburg, 2014, 2015
+// adapted from the original program
+// written by ???
+
+extern void object::EarthMission3()
+{
+	object rdr;
+	
+	if(category ==WheeledGrabber)
+	{
+		rdr = radar(PowerCell);
+		goto(rdr.position);
+		grab();
+		
+		rdr = radar(ResearchCenter);
+		goto(rdr.position);
+		drop();
+		
+		message("Research center powered - begin research.");
+		
+		rdr = radar(PowerCell); // There are two powercells that get in the way
+		goto(rdr.position);
+		grab();
+		turn(90);
+		drop();
+		move(-5);
+		rdr = radar(PowerCell);
+		goto(rdr.position);
+		grab();
+		turn(90);
+		drop();
+		
+		rdr = radar(Titanium);
+		goto(rdr.position);
+		grab();
+		
+		rdr = radar(BotFactory);
+		goto(rdr.position);
+		drop();
+		move(-5);
+		
+		message("Bot factory loaded. Create new bot.");
+		
+		rdr = radar(PowerCell);
+		goto(rdr.position);
+		grab();
+		
+		rdr = radar(TrackedGrabber);
+		message("Waiting for manufacture of Tracked Grabber.");
+		while(rdr == null) rdr = radar(TrackedGrabber);
+		
+		goto(rdr.position);
+		drop();
+		
+		message("Tracked grabber is ready.");
+		
+		rdr = radar(SpaceShip);
+		goto(rdr.position);
+	}
+	else
+	{
+		errmode(0);
+		move(-5);
+		goto(-95.09,-44.99);
+		rdr = radar(BlackBox);
+		wait(2);
+		goto(rdr.position);
+		grab();
+		
+		rdr = radar(SpaceShip);
+		goto(rdr.position);
+		drop();
+		message(category + ": Mission complete");
+		wait(2);
+		message("Please board SpaceShip and take off.");
+	}
+	
+	wait(2);
+}

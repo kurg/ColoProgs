@@ -1,0 +1,6 @@
+extern void object::BldConverter()
+{
+	 object item = radar(Titanium);
+	 goto(item.position);
+	  build(Converter); 
+}

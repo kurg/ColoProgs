@@ -1,0 +1,41 @@
+extern void object::NRecharge()
+{
+	
+	NukeRecharge();
+	message("Recharge Completed.");
+}
+bool object::NukeRecharge()
+{
+	object cell;
+	float min = 0;
+	
+	while( (cell = radar(NuclearCell,0,360,0,1000)) != null )
+	{
+		if(cell.energyLevel >= 0.5)
+		{
+			goto(cell.position);
+			if(load!=null) 
+			{
+				message("Putting down object...",DisplayInfo);
+				turn(90);
+				drop();
+				turn(-90);
+			}
+			    
+			message("Swapping with better PowerCell...",DisplayInfo);
+			
+			grab();   
+			drop(Behind);
+			
+			grab(EnergyCell);  
+			drop();
+			
+			grab(Behind);
+			drop(EnergyCell);
+			
+			return true;
+		}
+	}
+	
+	return false;
+}
