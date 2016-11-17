@@ -1,0 +1,169 @@
+extern void object::NTowers()
+{
+	object item;
+	message("Hello");
+	item=radar(DefenseTower,0,360,0,1000);
+	while(item != null)
+	{
+		ReloadTower();
+		CheckOwnState();
+	}
+	
+	
+}
+
+void object::CheckOwnState()
+{
+	// Comprobar estado propio
+	object item;
+	if (energyCell.energyLevel<0.6)
+	{
+		message("Battery Level low. Replacing Battery...",DisplayInfo);
+		NReChargeMe();
+	}
+	item=radar(RepairCenter);
+	if ((item != null) and shieldLevel<1)
+	{
+		message("Shield Level low. Recharging Shields...",DisplayInfo);
+		RepairBot();
+	}
+}
+
+void object::ReloadTower()
+{
+	object tower;
+	object item;
+	object cell;
+	
+	tower=radar(DefenseTower,0,270,10,1000);
+	goto(tower.position)-2;
+	
+	//if(tower == null)
+	//    return;
+	
+	if(tower.energyCell != null)
+	{
+		int cat[];
+		cat[0] = NuclearCell;
+		if(tower.energyCell.energyLevel < 0.2 and radar(cat) != null)
+		{
+			NukeRecharge();
+		}
+		else
+		{
+			message("Tower OK");
+		} 
+	}
+	else 
+	{
+		message("Needs New Nuclear Cell");
+		if( (cell = radar(NuclearCell,0,360,0,1000)) != null )
+		{
+			if(cell.energyLevel >= 0.8)
+			{
+				goto(cell.position);
+				if(load!=null) 
+				{
+					message("Putting down object...",DisplayInfo);
+					turn(90);
+					drop();
+					turn(-90);
+				}
+				    
+				message("Swapping with better PowerCell...",DisplayInfo);
+				grab();   
+			}
+		}
+		else message("No nuclear Cells Availalbe at this time!");
+		
+	}
+	
+}
+
+bool object::NukeRecharge()
+{
+	object cell;
+	float min = 0;
+	
+	if( (cell = radar(NuclearCell,0,360,0,1000)) != null )
+	{
+		if(cell.energyLevel >= 0.8)
+		{
+			goto(cell.position);
+			if(load!=null) 
+			{
+				message("Putting down object...",DisplayInfo);
+				turn(90);
+				drop();
+				turn(-90);
+			}
+			    
+			message("Swapping with better PowerCell...",DisplayInfo);
+			grab();   
+			return true;
+		}
+	}
+	else message("No nuclear Cells Availalbe at this time!");
+	return false;
+}
+
+bool object::NReChargeMe()
+{
+	object cell;
+	float min = 0;
+	
+	if( (cell = radar(NuclearCell,0,360,0,1000)) != null )
+	{
+		if(cell.energyLevel <= 0.3)
+		{
+			goto(cell.position);
+			if(load!=null) 
+			{
+				message("Putting down object...",DisplayInfo);
+				turn(90);
+				drop();
+				turn(-90);
+			}
+			    
+			message("Swapping with better PowerCell...",DisplayInfo);
+			
+			grab();   
+			drop(Behind);
+			
+			grab(EnergyCell);  
+			drop();
+			
+			grab(Behind);
+			drop(EnergyCell);
+			
+		}
+		else message("Fuel Status OK");
+		return true;
+	}
+	return false;
+}
+
+void object::RepairBot()
+{
+	point  start;          // variable for initial pos.
+	object item;           // info. about power station
+	
+	start = position;      // stores initial position
+	
+	item=radar(RepairCenter);
+	if (item != null)         // looks for station
+	{
+		goto(item.position);   // goes to the power station
+		while ( shieldLevel < 1 )
+		{
+			wait(1);            // waits until recharged
+		}
+		move(-1);
+		goto(start);           // comes back to initial pos.
+		message("Shield Repair Complete.",DisplayInfo);
+	}    
+	else message("No Repair Center Available");
+	
+}
+
+

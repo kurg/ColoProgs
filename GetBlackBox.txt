@@ -1,0 +1,13 @@
+extern void object::GetBlackBox()
+{
+	object item;
+	radar(BlackBox);
+	item = radar(BlackBox);
+	goto(item.position);
+	grab();
+	radar(SpaceShip);
+	item = radar(SpaceShip);
+	goto(item.position);
+	drop();
+	
+}

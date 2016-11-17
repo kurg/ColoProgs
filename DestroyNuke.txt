@@ -1,0 +1,13 @@
+extern void object::DestroyNuke()
+{
+	object item;
+	radar(NuclearCell);
+	item = radar(NuclearCell);
+	goto(item.position)-5;
+	grab();
+	radar(SpaceShip);
+	item = radar(SpaceShip);
+	goto(item.position);
+	drop();
+	
+}

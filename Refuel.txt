@@ -1,0 +1,11 @@
+extern void object::Refuel()
+{
+	object item;
+	radar(PowerStation);
+	item = radar(PowerStation);
+	goto(item.position);
+	wait(10);
+	move(-5);
+	turn(-90);
+	move(5);
+}

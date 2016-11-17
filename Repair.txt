@@ -1,0 +1,11 @@
+extern void object::Repair()
+{
+	object item;
+	radar(RepairCenter);
+	item = radar(RepairCenter);
+	goto(item.position);
+	wait(7);
+	move(-2);
+	turn(90);
+	move(5);
+}

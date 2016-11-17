@@ -1,0 +1,24 @@
+extern void object::BldResearchCenter2()
+{
+	object item;
+	item = radar(Titanium);
+	goto(item.position);
+	grab();
+	goto(-24.15,13.15);
+	drop();
+	build(ResearchCenter);
+	GoResearch(WingedGrabber);
+}
+
+void object::GoResearch(int type)
+{
+	object item = radar(PowerCell);
+	goto(item.position);
+	grab();
+	radar(ResearchCenter);
+	item = radar(ResearchCenter);
+	goto(item.position);
+	drop();
+	item.research(TrackedGrabber);
+}
+

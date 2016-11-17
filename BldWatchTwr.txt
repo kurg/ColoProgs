@@ -1,0 +1,6 @@
+extern void object::BldWatchTower()
+{
+	 object item = radar(Titanium);
+	 goto(item.position);
+	  build(DefenseTower); 
+}

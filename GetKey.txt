@@ -1,0 +1,13 @@
+extern void object::GetKey()
+{
+	object item;
+	radar(KeyA);
+	item = radar(KeyA);
+	goto(item.position);
+	grab();
+	radar(SpaceShip);
+	item = radar(SpaceShip);
+	goto(item.position);
+	drop();
+	
+}

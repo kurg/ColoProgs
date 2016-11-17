@@ -1,0 +1,67 @@
+extern void object::ServiceTower1()
+{
+	object  tower;               // info. about tower
+	object  station;             // info. about station
+	
+	// 1) go to the defense tower
+	while (true)
+	{
+		tower = radar(DefenseTower); // look for tower
+		goto(tower.position);        // go there
+		
+		while ( true )               // repeat forever
+		{
+			// 2) wait until power cell is empty
+			if ( tower.energyCell.energyLevel > 0.4 )
+			{
+				grab();                  // grab the power cell
+				
+				// 3) go to the power station to recharge
+				//station = radar(PowerStation);
+				//goto(station.position);  // go there
+				//while ( load.energyLevel < 1 )
+				//{
+				// wait(1);             // wait until recharged
+				//}
+				//3) Alternative - find Nukecell and recharge tower with it
+				NukeRecharge();
+				
+				// 4) go back to defense tower
+				goto(tower.position);    // go to tower
+				drop();      // drop the power cell  
+				               
+			}
+			else message("dont know what to do yet");
+		}
+	}
+	
+}
+
+
+bool object::NukeRecharge()
+{
+	object cell;
+	float min = 0;
+	
+	while( (cell = radar(NuclearCell,0,360,0,1000)) != null )
+	{
+		if(cell.energyLevel >= 0.8)
+		{
+			goto(cell.position);
+			if(load!=null) 
+			{
+				message("Putting down object...",DisplayInfo);
+				turn(90);
+				drop();
+				turn(-90);
+			}
+			    
+			message("Swapping with better PowerCell...",DisplayInfo);
+			
+			grab();   
+			return true;
+		}
+	}
+	
+	return false;
+}

@@ -1,0 +1,6 @@
+extern void object::FactoryRobot(string cat, string program)
+{
+	object item = radar(BotFactory);
+	item.factory(Subber);
+	
+}

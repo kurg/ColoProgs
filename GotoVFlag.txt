@@ -1,0 +1,17 @@
+extern void object::GoToVFlag()
+{
+	
+	object item;
+	radar(VioletFlag);
+	item = radar(VioletFlag);
+	if(item == null)
+	    goto(space());
+	else 
+	{
+		errmode(0);
+		if(goto(space(item.position)) != 0)
+		    goto(space());
+		errmode(1);
+	}
+	
+}

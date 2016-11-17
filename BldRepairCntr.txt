@@ -1,0 +1,6 @@
+extern void object::BldRepairCenter()
+{
+	 object item = radar(Titanium);
+	 goto(item.position); //GoTo Titanium Block
+	 build(RepairCenter); 
+}

@@ -1,0 +1,74 @@
+extern void object::MakeCells()
+{
+	
+	object item;
+	int i;
+	
+	while(true)
+	{
+		item=radar(Titanium,0,360,10,1000);
+		goto(item.position);
+		wait(1);
+		grab();
+		wait(1);
+		item=radar(PowerPlant);
+		goto(item.position)-1;
+		wait(1);
+		drop();
+		wait(15);
+		grab();
+		deliverResource(GreenFlag);
+		RechargeNuke();
+	}
+	
+}
+
+void object::deliverResource(int category)
+{
+	object dest = radar(category);
+	
+	if(dest == null)
+	    goto(space());
+	else 
+	{
+		errmode(0);
+		if(goto(space(dest.position)) != 0)
+		    goto(space());
+		errmode(1);
+	}
+	    
+	drop();
+	
+	message("TitaniumCube delivered.",DisplayInfo);
+}
+
+bool object::RechargeNuke()
+{
+	object cell;
+	float min = 0;
+	
+	while( (cell = radar(NuclearCell,0,360,min)) != null )
+	{
+		min = distance2d(position,cell.position) + 0.5;
+		
+		if(cell.energyLevel >= 0.3)
+		{
+			goto(cell.position);    
+			
+			message("Swapping with better NukeCell...",DisplayInfo);
+			
+			grab();   
+			drop(Behind);
+			
+			grab(EnergyCell);  
+			drop();
+			
+			grab(Behind);
+			drop(EnergyCell);
+			
+			return true;
+		}
+	}
+	
+	return false;
+}
